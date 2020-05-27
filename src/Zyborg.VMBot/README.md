@@ -1,12 +1,15 @@
-# VMBot
+# README - VMBot Usage
 
 AWS Lambda function to perform various automated tasks in response to EC2 lifecycle events.
+
+VMBot works by parsing well-known _Trigger Tags_ to perform specific Actions.  This section
+describes the Trigger Tags and how they are parsed, and the Actions they drive.
 
 ## Substitution Evaluation
 
 Many of the values that are used trigger or control operations that drive VMBot operations
 can embed _substitution expressions_ that can be resolved in the context of the triggering
-operation.  The subtitution expression takes the following form:
+operation.  The substitution expression takes the following form:
 
 ```code
 '%' <substitution-key> [ ':' <substitution-arg> ] '%'
@@ -108,8 +111,7 @@ For all contexts, the following substitution keys are supported:
     key except that a resolved null-value resolution
     will resolve to the empty string.
 
-
-### EC2 Substitution Evaluation
+### EC2 Substitutions
 
 When applied in the context of an EC2 instance, in addition to the
 [Common Substitution](#common-substitutions) keys, the following

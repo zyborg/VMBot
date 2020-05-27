@@ -11,6 +11,8 @@ infrastructure configuration changes.
 VMBot is a Lambda function that should be deployed to an AWS environment and configured to
 respond to EC2 lifecycle events using CloudWatch Events Rules.
 
+### EC2 Lifecycle Events
+
 VMBot understands the following three
 [lifecycle event states](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/ec2-instance-lifecycle.html):
 
@@ -21,6 +23,12 @@ VMBot understands the following three
 When VMBot receives an event for one of these EC2 state transitions, it will read the Tags
 for that EC2 instance and if it finds any matching _Trigger Tags_, it will perform actions
 as prescribed by the corresponding Tag value.
+
+### Deploy VMBot Using Terraform
+
+To help simplify the deployment and configuration of VMBot into your own environment,
+a Terraform Module is provided [here](deploy/tf/vmbot) which you is parameterized to
+suit most common deployment scenarios or you can further customize to suit your own needs.
 
 ## Trigger Tags and Actions
 

@@ -17,8 +17,13 @@ variable "_lambda_timeout" {
 
 locals {
     lambda_package = (var._lambda_package == null
-        ? "${path.module}/../../../src/VMBot/bin/Release/netcoreapp3.1/VMBot.zip"
+        ? "${path.module}/../../../src/Zyborg.VMBot/bin/Release/netcoreapp3.1/Zyborg.VMBot.zip"
         : var._lambda_package)
+    
+    ## If both VPC Subnets and SGs are provided, setup to deploy this to a VPC
+    vpc_config = ((var.lambda_vpc_subnet_ids != null && var.lambda_vpc_security_group_ids != null)
+        ? { vpc = true }
+        : { })
 }
 
 
@@ -59,23 +64,14 @@ resource "aws_lambda_function" "vmbot" {
     handler = "VMBot::Zyborg.VMBot.Function::FunctionHandler"
     runtime = "dotnetcore3.1"
 
-    ## Have to deploy this as an VPC-internal Lambda
-    ## so that it can reach the Vault endpoints
-    vpc_config {
-        subnet_ids         = var.lambda_subnet_ids
-        security_group_ids = var.lambda_security_group_ids
+    dynamic "vpc_config" {
+        for_each = local.vpc_config
+        content {
+            subnet_ids         = var.lambda_vpc_subnet_ids
+            security_group_ids = var.lambda_vpc_security_group_ids
+        }
     }
 
-    ## Future enhancement?
-    ## The Lambda can be deployed in a VPC if
-    ## both subnet IDs and SG IDs are provided
-    ## Have to deploy this as a VPC-internal Lambda
-    ## so that it can reach the Vault endpoints
-    # vpc_config {
-    #     subnet_ids         = "${var.lambda_vpc_subnet_ids}"
-    #     security_group_ids = "${var.lambda_vpc_security_group_ids}"
-    # }
-    
     timeout = var._lambda_timeout
     tags = {
         (var.tf_tag_name) = var.tf_tag_value
