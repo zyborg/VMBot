@@ -1,15 +1,29 @@
 
-locals {
-    cwevents_ec2_trigger_states = [
+variable "_cwevents_ec2_trigger_states" {
+    description  = <<-DESC
+        The list of EC2 states that will trigger VMBot.
+        By default, the following states are supported:
+        * `running`
+        * `stopping`
+        * `shutting-down`
+        DESC
+    type    = list
+    default = [
         ## The only state that triggers adding/updating
         ## the Route53 mapping to the EC2 instance
+        
+        ## (end states)
         "running",
 
         ## The various states that trigger removing
         ## existing Route53 mapping to the EC2 instances
-        "rebooting",
+
+        ## (transition states)
+        #"rebooting", -- logical state, not a real state :-(
         "stopping",
         "shutting-down",
+
+        ## (end states)
         #"stopped",
         #"terminated",
     ]
@@ -36,7 +50,7 @@ resource "aws_cloudwatch_event_rule" "ec2states" {
             ],
             "detail": {
                 "state": [
-                    "${join("\",\"", local.cwevents_ec2_trigger_states)}"
+                    "${join("\",\"", var._cwevents_ec2_trigger_states)}"
                 ]
             }
         }

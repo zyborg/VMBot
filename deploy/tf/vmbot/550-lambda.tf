@@ -56,10 +56,9 @@ resource "aws_lambda_function" "vmbot" {
     s3_key        = aws_s3_bucket_object.lambda_package.key
 
     source_code_hash = filebase64sha256(local.lambda_package)
-    # source_code_hash = "${data.aws_s3_bucket_object.lambda_package.metadata["Terraform_base64sha256"]}"
 
     role    = aws_iam_role.vmbot_lambda.arn
-    handler = "VMBot::Zyborg.VMBot.Function::FunctionHandler"
+    handler = "Zyborg.VMBot::Zyborg.VMBot.Function::FunctionHandler"
     runtime = "dotnetcore3.1"
 
     dynamic "vpc_config" {
@@ -82,46 +81,3 @@ resource "aws_lambda_function" "vmbot" {
 output "vmbot_lambda_arn" {
     value = aws_lambda_function.vmbot.arn
 }
-
-
-# ## We setup 2 CloudWatch Events Rules on a scheduled basis
-# ##  * First, to generate a credential report
-# ##  * Second, to process the credential report
-# resource "aws_cloudwatch_event_rule" "generate_cred_report" {
-#     name        = "vmbot_GenerateCredReport"
-#     description = "Invokes vmbot to generate an IAM Credential Report."
-#     is_enabled  = true
-#     schedule_expression = "${var._cwevents_generate_cred_report_schedule}"
-# }
-# resource "aws_lambda_permission" "cwevents" {
-#     statement_id  = "CWEvents-Invoke-vmbot-Generate"
-#     principal     = "events.amazonaws.com"
-#     source_arn    = "${aws_cloudwatch_event_rule.generate_cred_report.arn}"
-#     action        = "lambda:InvokeFunction"
-#     function_name = "${aws_lambda_function.vmbot.function_name}"
-# }
-# resource "aws_cloudwatch_event_target" "generate_cred_report" {
-#     rule      = aws_cloudwatch_event_rule.generate_cred_report.name
-#     arn       = aws_lambda_function.vmbot.arn
-#     input     = "\"generate-report\""
-#     target_id = "Generate-Credential-Report"
-# }
-# resource "aws_cloudwatch_event_rule" "process_cred_report" {
-#     name        = "vmbot_ProcessCredReport"
-#     description = "Invokes vmbot to process notifications against an IAM Credential Report."
-#     is_enabled  = true
-#     schedule_expression = var._cwevents_process_cred_report_schedule
-# }
-# resource "aws_lambda_permission" "cwevents_process_cred_report" {
-#     statement_id  = "CWEvents-Invoke-vmbot-Process"
-#     principal     = "events.amazonaws.com"
-#     source_arn    = aws_cloudwatch_event_rule.process_cred_report.arn
-#     action        = "lambda:InvokeFunction"
-#     function_name = aws_lambda_function.vmbot.function_name
-# }
-# resource "aws_cloudwatch_event_target" "process_cred_report" {
-#     rule      = aws_cloudwatch_event_rule.process_cred_report.name
-#     arn       = aws_lambda_function.vmbot.arn
-#     input     = "null"
-#     target_id = "Process-Credential-Report"
-# }

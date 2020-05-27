@@ -126,12 +126,15 @@ namespace Zyborg.VMBot
             {
                 switch (ev.Detail.State)
                 {
+                    case EC2StateChangeStates.Pending:
                     case EC2StateChangeStates.Running:
                         await HandleInstInit(ev.Detail.InstanceId);
                         break;
 
                     case EC2StateChangeStates.Stopping:
+                    case EC2StateChangeStates.Stopped:
                     case EC2StateChangeStates.ShuttingDown:
+                    case EC2StateChangeStates.Terminated:
                         await HandleInstTerm(ev.Detail.InstanceId);
                         break;
                 }
