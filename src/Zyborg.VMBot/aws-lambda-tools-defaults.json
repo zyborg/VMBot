@@ -17,5 +17,5 @@
   "function-runtime": "dotnetcore3.1",
   "function-memory-size": 256,
   "function-timeout": 30,
-  "function-handler": "VMBot::Zyborg.VMBot.Function::FunctionHandler"
+  "function-handler": "Zyborg.VMBot::Zyborg.VMBot.Function::FunctionHandler"
 }

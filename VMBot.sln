@@ -5,11 +5,11 @@ VisualStudioVersion = 15.0.26124.0
 MinimumVisualStudioVersion = 15.0.26124.0
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{A6248C34-13D7-4CD6-91F3-65665E3C3131}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMBot", "src\VMBot\VMBot.csproj", "{14A6EAA2-29C4-4DC5-BC3C-6F1D4919B3DA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zyborg.VMBot", "src\Zyborg.VMBot\Zyborg.VMBot.csproj", "{14A6EAA2-29C4-4DC5-BC3C-6F1D4919B3DA}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{752E4F69-7B03-465D-BE93-B525EE26F767}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "VMBot.Tests", "test\VMBot.Tests\VMBot.Tests.csproj", "{DA14DB9F-08A7-4865-8524-659FCBC9806F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Zyborg.VMBot.Tests", "test\Zyborg.VMBot.Tests\Zyborg.VMBot.Tests.csproj", "{DA14DB9F-08A7-4865-8524-659FCBC9806F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

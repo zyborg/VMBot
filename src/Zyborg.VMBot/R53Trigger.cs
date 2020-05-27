@@ -223,6 +223,11 @@ namespace Zyborg.VMBot
             return spec;
         }
 
+        public class R53HealthSpec
+        {
+            
+        }
+
         public class R53Spec
         {
             public string Zone { get; set; }
