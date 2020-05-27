@@ -17,7 +17,7 @@ variable "_lambda_timeout" {
 
 locals {
     lambda_package = (var._lambda_package == null
-        ? "${path.module}/../../../src/Zyborg.VMBot/bin/Release/netcoreapp3.1/Zyborg.VMBot.zip"
+        ? "${path.module}/res/Zyborg.VMBot.zip"
         : var._lambda_package)
     
     ## If both VPC Subnets and SGs are provided, setup to deploy this to a VPC
@@ -25,8 +25,6 @@ locals {
         ? { vpc = true }
         : { })
 }
-
-
 
 ######################################################################
 ## Lambda Function and Related Resources
