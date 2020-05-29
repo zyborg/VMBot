@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Amazon.EC2.Model;
-using VMBot.Util;
+using Zyborg.VMBot.Util;
 using Xunit;
 
 namespace VMBot.Tests.Util
@@ -46,7 +46,7 @@ namespace VMBot.Tests.Util
         [InlineData(" a %foo%% c ", " a %foo%% c ")]
 
         [InlineData("%PRIVATE_IP%", "10.10.10.10")]
-        [InlineData(" a %%%PRIVATE_IP%% c ", " a %%10.10.10.10% c ")]
+        [InlineData(" a %%%PRIVATE_IP%% c ", " a %10.10.10.10% c ")]
         [InlineData(" a %PRIVATE_IP%", " a 10.10.10.10")]
         [InlineData("%PRIVATE_IP% c ", "10.10.10.10 c ")]
         [InlineData(" %PRIVATE_IP% %PUBLIC_IP% %PUBLIC_DNS% ",

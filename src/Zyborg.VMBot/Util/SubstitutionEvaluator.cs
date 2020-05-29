@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
 using Amazon.EC2.Model;
@@ -68,6 +69,7 @@ namespace Zyborg.VMBot.Util
         /// and ending the value with a token.
         /// </summary>
         public const char Token = '%';
+        public const char EscToken = '#';
 
         private static readonly IReadOnlyDictionary<string, Func<TTarget, string, string>> CommonHandlers =
             new Dictionary<string, Func<TTarget, string, string>>
@@ -83,9 +85,15 @@ namespace Zyborg.VMBot.Util
                 ["ENV"] = (inst, env) => System.Environment.GetEnvironmentVariable(env)
                     ?? $"%ENV:{env}%",
                 ["ENV?"] = (inst, env) => System.Environment.GetEnvironmentVariable(env),
+
                 ["PROP"] = (inst, prop) => typeof(TTarget).GetProperty(prop)?.GetValue(inst)?.ToString()
                     ?? $"%PROP:{prop}%",
                 ["PROP?"] = (inst, prop) => typeof(TTarget).GetProperty(prop)?.GetValue(inst)?.ToString(),
+
+                [string.Empty] = (inst, num) => "%",
+                ["PCT"] = (inst, num) => new string('%',
+                    ushort.TryParse(num, out var numVal) ? numVal : 1),
+                ["ESC"] = (inst, str) => ParseEscape(str),
             };
 
         private IDictionary<string, Func<TTarget, string, string>> _keyHandlers =
@@ -272,6 +280,38 @@ namespace Zyborg.VMBot.Util
             builder.Append(expr.Substring(posB + 1));
 
             return builder.ToString();
+        }
+
+        public static string ParseEscape(string s)
+        {
+            if (string.IsNullOrWhiteSpace(s))
+                return s;
+
+            StringBuilder buff = new StringBuilder();
+            int lastEscPos = s.Length - 3; // The last position that could be used for escaping
+            int posB = 0;
+            int posA = s.IndexOf(EscToken);
+            while (posA >= posB && posA <= lastEscPos)
+            {
+                buff.Append(s.Substring(posB, posA - posB));
+
+                string hex = s.Substring(posA + 1, 2);
+                if (ushort.TryParse(hex, NumberStyles.HexNumber, null, out var val))
+                {
+                    buff.Append((char)val);
+                    posB = posA + 3;
+                }
+                else
+                {
+                    buff.Append(s[posA]);
+                    posB = posA + 1;
+                }
+                posA = s.IndexOf(EscToken, posB);
+            }
+
+            buff.Append(s.Substring(posB));
+
+            return buff.ToString();
         }
     }
 }

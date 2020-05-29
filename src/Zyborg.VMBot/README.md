@@ -3,7 +3,19 @@
 AWS Lambda function to perform various automated tasks in response to EC2 lifecycle events.
 
 VMBot works by parsing well-known _Trigger Tags_ to perform specific Actions.  This section
-describes the Trigger Tags and how they are parsed, and the Actions they drive.
+describes the Trigger Tags and how they are parsed, as well as the Actions they drive.
+
+Jump to a section:
+
+* [Substitution Evaluation](#substitution-evaluation)
+  * [Common Substitutions](#common-substitutions)
+  * [EC2 Substitutions](#ec2-substitutions)
+* [Route53 Specification](#route53-specification)
+  * [Routing Policy Specification](#routing-policy-specification)
+  * [Health Check Specification](#health-check-specification)
+* [EIP Specification](#eip-specification)
+
+----
 
 ## Substitution Evaluation
 
@@ -24,6 +36,8 @@ for each key to determine if and how a substitution argument is supported.
 ### Common Substitutions
 
 For all contexts, the following substitution keys are supported:
+
+#### Date & Time Related
 
 * **`NOW_DATE`** - Resolves to the current date as a result
     of `DateTime.Now` using the format `yyyy_MM_dd`.
@@ -77,6 +91,8 @@ For all contexts, the following substitution keys are supported:
         May 22, 2020 at 2:24:33pm.
     ```
 
+#### Environment & Target Properties
+
 * **`ENV`** - Resolves to the value of an environment variable
     specified by the substitution argument.
     If the environment variable is missing or otherwise resolves
@@ -110,6 +126,34 @@ For all contexts, the following substitution keys are supported:
 * **`PROP?`** - This key resolves exactly as the `PROP`
     key except that a resolved null-value resolution
     will resolve to the empty string.
+
+#### Escape Forms
+
+* **_(empty)_** - The _empty_ key (written as two adjacent
+    tokens with no other intermediate characters, resolves
+    to a single percent (`%`) character.
+
+* **`PCT`** - Resolves to one or more percent (`%`) characters.
+    This key optionally supports the substitution argument, and
+    if provided, is interpreted as the number of percent characters
+    to resolve to.  If not provided, it defaults to 1.
+
+* **`ESC`** - This key is used to render a string of one or
+    more literal or escaped characters.  Escaped characters
+    a represented in this form:
+
+    ```example
+        '#' <hex-code>
+    ```
+
+    Where the `hex-code` is the ASCII code for the character
+    as a zero-padded, tw0-digit hexadecimal value.  For example
+
+    ```example
+        `#44#6F#67` would resolve to the 3-character string `Dog`
+        `Cats #26 Dogs` would resolve to the string `Cats & Dogs`
+        `#3b #23 #25 #26 #3a` resolves to the string `; # % & :`
+    ```
 
 ### EC2 Substitutions
 
@@ -271,3 +315,11 @@ if the `route-type-arg` is required and how it is interpreted:
         ##    `country=US,MD` for Maryland in the United States
         ##    `country=FR` for France
     ```
+
+### Health Check Specification
+
+> TODO:  this feature is in progress
+
+## EIP Specification
+
+> TODO:  this feature is in progress

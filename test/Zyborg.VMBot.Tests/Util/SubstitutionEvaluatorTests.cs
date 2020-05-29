@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.EC2.Model;
-using VMBot.Util;
+using Zyborg.VMBot.Util;
 using Xunit;
 
 namespace VMBot.Tests.Util
@@ -135,6 +135,35 @@ namespace VMBot.Tests.Util
             var proc = Process.GetCurrentProcess();
 
             Assert.Equal(expected, eval.Evaluate(expression, DateTime.UnixEpoch));
+            return Task.CompletedTask;
+        }
+
+        [Theory]
+        [InlineData("%", "%")]
+        [InlineData(" % ", " % ")]
+        [InlineData(" %% ", " % ")]
+        [InlineData(" %% % ", " % % ")]
+
+        [InlineData("%PCT%", "%")]
+        [InlineData("%PCT:%", "%")]
+        [InlineData("%PCT:-1%", "%")]
+        [InlineData("%PCT:2%", "%%")]
+        [InlineData(" %PCT:10% %PCT:3% %PCT:10", " %%%%%%%%%% %%% %PCT:10")]
+
+        [InlineData("%ESC%", "")]
+        [InlineData("%ESC:%", "")]
+        [InlineData("%ESC: %", " ")]
+        [InlineData("%ESC: a b c %", " a b c ")]
+        [InlineData("%ESC:#44#6F#67%", "Dog")]
+        [InlineData("%ESC:#44#6F#6%", "Do#6")]
+        [InlineData("%ESC:#44##67%", "D#g")]
+        [InlineData("%ESC:Cats #26 Dogs%", "Cats & Dogs")]
+        [InlineData("%ESC:#3b #23 #25 #26 #3a%", "; # % & :")]
+        public Task eval_escape_forms(string expression, string expected)
+        {
+            var eval = new SubstitutionEvaluator<object>()
+                .AddCommonHandlers();
+            Assert.Equal(expected, eval.Evaluate(expression, null));
             return Task.CompletedTask;
         }
     }

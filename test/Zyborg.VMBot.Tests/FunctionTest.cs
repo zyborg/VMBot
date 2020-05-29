@@ -17,7 +17,8 @@ using Amazon.S3.Util;
 using VMBot;
 using Amazon.EC2;
 using Amazon.Route53;
-using VMBot.CWEvents.EC2StateChange;
+using Zyborg.VMBot.CWEvents.EC2StateChange;
+using Zyborg.VMBot;
 
 namespace VMBot.Tests
 {
