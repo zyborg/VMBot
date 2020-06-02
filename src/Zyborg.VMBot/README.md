@@ -10,7 +10,8 @@ Jump to a section:
 * [Substitution Evaluation](#substitution-evaluation)
   * [Common Substitutions](#common-substitutions)
   * [EC2 Substitutions](#ec2-substitutions)
-* [Route53 Specification](#route53-specification)
+* [Route53 Specifications](#route53-specifications)
+  * [Record Update Specification](#record-update-specification)
   * [Routing Policy Specification](#routing-policy-specification)
   * [Health Check Specification](#health-check-specification)
 * [EIP Specification](#eip-specification)
@@ -232,10 +233,15 @@ keys are also supported:
     key except that a resolved null-value resolution
     will resolve to the empty string.
 
-## Route53 Specification
+## Route53 Specifications
+
+Several tags are available to manage various resources in the are
+of the Route 53 service.
+
+### Record Update Specification
 
 If a tag with the name `vmbot:r53` is found, its value will be parsed as a
-_Record Update Specification_ for the Route53 service.  The specification is
+_Record Update specification_ for the Route53 service.  The specification is
 a string with the following components:
 
 ```code
@@ -275,8 +281,8 @@ for EC2 _substitutions_ relative to the target EC2 instance.
 
 ### Routing Policy Specification
 
-If an additional tag with the name `vmbot:r53-routing` is found, it value will be
-parsed as a _Routing Policy Specification_ for the associated Route53 record.  The
+If an additional tag with the name `vmbot:r53-routing` is found, its value will be
+parsed as a _Routing Policy specification_ for the associated Route53 record.  The
 specification is a string with the following components:
 
 ```code
@@ -316,9 +322,88 @@ if the `route-type-arg` is required and how it is interpreted:
         ##    `country=FR` for France
     ```
 
+> NOTE: Some of the routing policies supported above may also
+> require an associated Health Check Specification (as described below)
+> in order to work properly.
+
 ### Health Check Specification
 
-> TODO:  this feature is in progress
+If a tag with the name `vmbot:r53-health` is found, its value will be parsed as a
+_Health Check specification_ for the associated EC2 instance.  The specification
+can take one of two forms.
+
+> NOTE: a health check can be specified and created for an EC2 instance even if
+> there is no associated Route 53 Record Update or Routing Policy tags provided
+> to make use of it.  However, several of the Routing Policy types do require a
+> Health Check in order to work properly.
+
+#### Inline (Short) Form
+
+The _Inline_ form allows you to define a Health Check directly in the Tag value
+however it is limited to only a subset of Health Check types and limited to only
+a subset attributes.  The Inline form has the following components:
+
+```code
+    <hc-type> ';' <threshold> ';' <ip-addr> ';' <port> ';' <fqdn> ';' <res-path> ';' <search>
+```
+
+> For details on the following options, please reference the detailed [AWS documentation
+  ](https://docs.aws.amazon.com/Route53/latest/APIReference/API_HealthCheckConfig.html).
+
+The **`hc-type`** indicates the Health Check type and is limited to the following values
+in the Inline form:
+
+* `HTTP`
+* `HTTP_STR_MATCH`
+* `HTTPS`
+* `HTTPS_STR_MATCH`
+* `TCP`
+  
+Depending on the Type selected, the subsequent additional components may or may
+not be supported or required (see the official docs for more details).  For each
+component, you can skip that value by simply omitting it, but you must provide
+the successive semicolon (`;`) in order to specify any other components that follow.
+The remaining components supported in the Inline form are:
+
+| Component | Corresponding Configuration Property
+|-|-|
+| **`threshold`** | `FailureThreshold`
+| **`ip-addr`**   | `IPAddress`
+| **`port`**      | `Port`
+| **`fqdn`**      | `FullyQualifiedDomainName`
+| **`res-path`**  | `ResourcePath`
+| **`search`**    | `SearchString`
+
+#### S3 Reference (Full) Form
+
+Instead of specifying the Health Check specification directly inline in the Tag value
+you can also use an alternate S3 Reference value that points to an S3 file object **that
+the VMBot should have read access to**.  The S3 file object will be interpreted as a
+JSON file that will be deserialized to a complete [HealthCheckConfig
+](https://docs.aws.amazon.com/sdkfornet/v3/apidocs/items/Route53/THealthCheckConfig.html)
+instance.
+
+The S3 Reference form is specified as follows:
+
+```code
+    '!S3=' <bucket-name> '/' <object-key>
+```
+
+An example of this form:
+
+```example
+    !S3=example-bucket/the/path/to/hc-config.json
+```
+
+In this example the bucket name is `example-bucket` and the full object key is
+`the/path/to/hc-config.json`.
+
+Just prior to parsing the resolved S3 object as JSON content, the complete S3
+object file will be first evaluated for _Substitutions_ in a similar manner to
+the way that Tag values are first resolved.  The Substitutions will be resolved
+in the context of the target EC2 instance.  This allows you to embed
+context-specific and EC2-specific values within.  Because of this, make sure that
+you escape any of the special Substitution tokens properly.
 
 ## EIP Specification
 

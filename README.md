@@ -34,8 +34,10 @@ suit most common deployment scenarios or you can further customize to suit your 
 
 For this first release, VMBot supports Route 53-related Trigger Tags and Actions.
 
-* **`vmbot:r53`** - used to dynamically create Route 53 records for the associated EC2 instance
-* **`vmbot:r53-routing`** - used to supplement the `vmbot:r53` Trigger with Route53 Routing policies
-* **`vmbot:r53-health`** - used to create Route 53 Health Checks
+* **`vmbot:r53`** - dynamically create Route 53 records for the associated EC2
+  instance (details)
+* **`vmbot:r53-routing`** - supplement the `vmbot:r53` Trigger with Route53 Routing policies
+* **`vmbot:r53-health`** - create Route 53 Health Checks
+* **`vmbot:eip`** - dynamically assign an EIP to the target EC2 instance from a pool of existing EIPs
 
 More details and documentation on how to use the Tags can be found [here](src/Zyborg.VMBot/README.md).

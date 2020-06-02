@@ -54,3 +54,7 @@ resource "aws_iam_role_policy_attachment" "vmbot_lambda_execution" {
     ## Access to write logs and manage ENIs on EC2 instances
     policy_arn = var._lambda_role_policies[count.index]
 }
+
+output "vmbot_lambda_role" {
+    value = aws_iam_role.vmbot_lambda.name
+}

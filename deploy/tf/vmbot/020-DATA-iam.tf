@@ -55,6 +55,22 @@ data "aws_iam_policy_document" "vmbot" {
         resources = ["*"]
     }
 
+    ## Allow Health Check changes
+    statement {
+        sid    = "R53Health"
+        effect = "Allow"
+        actions = [
+            "route53:ListHealthChecks",
+            "route53:GetHealthCheck*",
+            "route53:CreateHealthCheck",
+            "route53:UpdateHealthCheck",
+            "route53:DeleteHealthCheck",
+            "route53:ListTag*",
+            "route53:ChangeTag*",
+        ]
+        resources = ["*"]
+    }
+
     ## FUTURE?
     #statement {
     #    sid       = "SESSendEmail"

@@ -128,14 +128,14 @@ namespace Zyborg.VMBot
                 {
                     case EC2StateChangeStates.Pending:
                     case EC2StateChangeStates.Running:
-                        await HandleInstInit(ev.Detail.InstanceId);
+                        await HandleInstInit(ev.Detail.InstanceId, ev.Detail.State);
                         break;
 
                     case EC2StateChangeStates.Stopping:
                     case EC2StateChangeStates.Stopped:
                     case EC2StateChangeStates.ShuttingDown:
                     case EC2StateChangeStates.Terminated:
-                        await HandleInstTerm(ev.Detail.InstanceId);
+                        await HandleInstTerm(ev.Detail.InstanceId, ev.Detail.State);
                         break;
                 }
             }
@@ -164,22 +164,22 @@ namespace Zyborg.VMBot
                 "vmbot:r53-health" = "domain.sfx;name"
         */
 
-        public async Task HandleInstInit(string id)
+        public async Task HandleInstInit(string id, string ec2State)
         {
             var inst = await GetInstance(id);
             var tags = inst.Tags.ToDictionary(t => t.Key, t => t.Value);
 
             if (_r53Trigger.HasTrigger(inst, tags))
-                await _r53Trigger.HandleInitR53(inst, tags);
+                await _r53Trigger.HandleInitR53(inst, tags, ec2State);
         }
 
-        public async Task HandleInstTerm(string id)
+        public async Task HandleInstTerm(string id, string ec2State)
         {
             var inst = await GetInstance(id);
             var tags = inst.Tags.ToDictionary(t => t.Key, t => t.Value);
 
             if (_r53Trigger.HasTrigger(inst, tags))
-                await _r53Trigger.HandleTermR53(inst, tags);
+                await _r53Trigger.HandleTermR53(inst, tags, ec2State);
         }
 
         // /// <summary>
