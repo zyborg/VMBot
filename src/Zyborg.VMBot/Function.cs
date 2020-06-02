@@ -81,6 +81,12 @@ namespace Zyborg.VMBot
             _logger = _services.GetRequiredService<ILogger<Function>>();
 
             _r53Trigger = _services.GetRequiredService<R53Trigger>();
+
+            var asm = System.Reflection.Assembly.GetExecutingAssembly();
+            var ver = asm.GetName().Version;
+            _logger.LogInformation($"*************************************************************");
+            _logger.LogInformation($"** VMBot v{ver} - Starting Up...");
+            _logger.LogInformation($"*************************************************************");
         }
 
         private IConfiguration SetupConfiguration()
