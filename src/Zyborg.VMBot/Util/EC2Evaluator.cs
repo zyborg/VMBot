@@ -123,7 +123,6 @@ namespace Zyborg.VMBot.Util
         {
             base.AddCommonHandlers()
                 .AddHandlers(InstanceHandlers);
-                
         }
 
         private static string[] RegexParts(string regex)

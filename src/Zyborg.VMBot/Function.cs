@@ -101,16 +101,6 @@ namespace Zyborg.VMBot
         private void SetupLogging(ILoggingBuilder logging, IConfiguration config)
         {
             var opts = new LambdaLoggerOptions(config);
-            // var opts = new LambdaLoggerOptions
-            // {
-            //     IncludeCategory = true,
-            //     IncludeEventId = true,
-            //     IncludeException = true,
-            //     IncludeLogLevel = true,
-            //     IncludeNewline = true,
-            //     IncludeScopes = true,
-            // }
-
             logging.AddLambdaLogger(opts);
         }
 
@@ -187,34 +177,5 @@ namespace Zyborg.VMBot
             if (_r53Trigger.HasTrigger(inst, tags))
                 await _r53Trigger.HandleTermR53(inst, tags, ec2State);
         }
-
-        // /// <summary>
-        // /// This method is called for every Lambda invocation. This method takes in an S3 event object and can be used 
-        // /// to respond to S3 notifications.
-        // /// </summary>
-        // /// <param name="ev"></param>
-        // /// <param name="context"></param>
-        // /// <returns></returns>
-        // public async Task<string> FunctionHandler(S3Event ev, ILambdaContext context)
-        // {
-        //     var s3Event = ev.Records?[0].S3;
-        //     if(s3Event == null)
-        //     {
-        //         return null;
-        //     }
-
-        //     try
-        //     {
-        //         var response = await this._s3.GetObjectMetadataAsync(s3Event.Bucket.Name, s3Event.Object.Key);
-        //         return response.Headers.ContentType;
-        //     }
-        //     catch(Exception e)
-        //     {
-        //         context.Logger.LogLine($"Error getting object {s3Event.Object.Key} from bucket {s3Event.Bucket.Name}. Make sure they exist and your bucket is in the same region as this function.");
-        //         context.Logger.LogLine(e.Message);
-        //         context.Logger.LogLine(e.StackTrace);
-        //         throw;
-        //     }
-        // }
     }
 }
