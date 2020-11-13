@@ -1,0 +1,28 @@
+{
+    "Records": [
+        {
+            "messageId": "878b39b4-e7ee-4d5e-92e9-473c48b5adc5",
+            "receiptHandle": "T5a8k2Wkc+9OAQEBboOo4WswHddy8siElN28dOh0GDIBuO1tF1zrUxDrYI/Oi3dkgfT9sZaK8agBxoB2Kwhgma+4k02p7b+0zSicUKcQ1sw0OkBXQyRYe32k7k/7BaWLSENwvo9ua8i/ihmG15qIq6OkrtPs0Jl6OYV+oiiYVaMhQGbsOmal5BVhMjTCuZOeZBtKzMvNEre13NfZzRi1TDhyaObt5CABf+DDqYXmhtAm3ludc3sBiJ5HrZIjIf5bbFEFJlWsHbrZa7y3RPX2syKPE81kAIn+aUpGawMX/RY4pQ7+eS5mBlfukVfeldUvJE+Z5F3oyWv/78gH6+Ih0BV6wIwXQOMWU3lu0fdRKc2xN4HYCOt8zVe2nb/D38qe15yJ",
+            "body": "{\"Headers\":{\"NServiceBus.MessageId\":\"d276edbd-302c-4ea9-a1af-ac6f0135cf7d\",\"NServiceBus.MessageIntent\":\"Send\",\"NServiceBus.ConversationId\":\"6672e7b4-e32e-4743-acbd-ac6f0135cf90\",\"NServiceBus.CorrelationId\":\"d276edbd-302c-4ea9-a1af-ac6f0135cf7d\",\"NServiceBus.OriginatingMachine\":\"XXX-001388\",\"NServiceBus.OriginatingEndpoint\":\"GuacBot-Sender\",\"$.diagnostics.originating.hostid\":\"90dd7c77cc8c35a71e1c665b3877da81\",\"NServiceBus.ReplyToAddress\":\"GuacBot-Sender\",\"NServiceBus.ContentType\":\"application/json\",\"NServiceBus.EnclosedMessageTypes\":\"Zyborg.GuacBot.PingMessage, Zyborg.GuacBot, Version=0.9.5.0, Culture=neutral, PublicKeyToken=null\",\"NServiceBus.Version\":\"7.2.4\",\"NServiceBus.TimeSent\":\"2020-11-10 18:47:59:407849 Z\"},\"Body\":\"77u/eyJNZXNzYWdlIjoiSGVsbG8gV29ybGQifQ==\",\"S3BodyKey\":null}",
+            "attributes": {
+                "ApproximateReceiveCount": "1",
+                "SentTimestamp": "1605034093617",
+                "SenderId": "KKAIDAIAJRJ2NJ34I6PRL",
+                "ApproximateFirstReceiveTimestamp": "1605034093628"
+            },
+            "messageAttributes": {
+                "NServiceBus.MessageId": {
+                    "stringValue": "d276edbd-302c-4ea9-a1af-ac6f0135cf7d",
+                    "stringListValues": [],
+                    "binaryListValues": [],
+                    "dataType": "String"
+                }
+            },
+            "md5OfBody": "29998b34d79f757c50394493e2752827",
+            "md5OfMessageAttributes": "35aa092eb75fbc81bbb023ded0d46e28",
+            "eventSource": "aws:sqs",
+            "eventSourceARN": "arn:aws:sqs:us-east-1:891234567890:GuacBot",
+            "awsRegion": "us-east-1"
+        }
+    ]
+}

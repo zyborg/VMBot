@@ -1,0 +1,16 @@
+{
+    "Version": "0",
+    "Account": "891234567890",
+    "Region": "us-east-1",
+    "Detail": {
+        "instance-id": "i-abcdef01234567890",
+        "State": "stopping"
+    },
+    "detail-type": "EC2 Instance State-change Notification",
+    "Source": "aws.ec2",
+    "Time": "2020-05-27T20:32:42Z",
+    "Id": "7bfaf165-a749-5d88-2f91-8252f56e0702",
+    "Resources": [
+        "arn:aws:ec2:us-east-1:891234567890:instance/i-abcdef01234567890"
+    ]
+}
