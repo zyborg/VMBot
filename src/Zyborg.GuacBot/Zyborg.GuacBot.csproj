@@ -5,6 +5,7 @@
     <GenerateRuntimeConfigurationFiles>true</GenerateRuntimeConfigurationFiles>
     <AWSProjectType>Lambda</AWSProjectType>
     <RootNamespace>Zyborg.GuacBot</RootNamespace>
+    <OutputType>Exe</OutputType>
   </PropertyGroup>
 
   <ItemGroup>
@@ -14,27 +15,48 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amazon.Lambda.Core" Version="1.1.0" />
-    <PackageReference Include="Amazon.Lambda.Logging.AspNetCore" Version="3.0.0" />
-    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.7.0" />
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.Logging.AspNetCore" Version="3.1.0" />
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.8.0" />
     <PackageReference Include="Amazon.Lambda.CloudWatchEvents" Version="2.0.0" />
+    <PackageReference Include="Amazon.Lambda.SNSEvents" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="1.2.0" />
     <!-- <PackageReference Include="Amazon.Lambda.S3Events" Version="1.1.0" /> -->
-    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.0.1" />
+    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.1.0" />
     <PackageReference Include="AngleSharp" Version="0.14.0" />
     <PackageReference Include="AWSSDK.EC2" Version="3.3.177" />
-    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="3.1.9" />
+    <PackageReference Include="Microsoft.AspNetCore.JsonPatch" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="5.0.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="5.0.0" />
     <!-- <PackageReference Include="AWSSDK.Route53" Version="3.3.104.7" /> -->
     <!-- <PackageReference Include="AWSSDK.S3" Version="3.3.104.42" /> -->
-    <PackageReference Include="Microsoft.Extensions.Configuration.EnvironmentVariables" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="3.1.4" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="3.1.4" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="5.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="5.0.0" />
+    <PackageReference Include="NServiceBus.AwsLambda.Sqs" Version="0.3.1" />
+    <PackageReference Include="NServiceBus.Newtonsoft.Json" Version="2.2.0" />
     <PackageReference Include="OTP.NET" Version="1.2.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <!-- To prevent error NU1605 -->
+    <PackageReference Include="System.Diagnostics.Debug" Version="4.3.0" />
+    <PackageReference Include="System.Globalization" Version="4.3.0" />
+    <PackageReference Include="System.IO.FileSystem" Version="4.3.0" />
+    <PackageReference Include="System.IO.FileSystem.Primitives" Version="4.3.0" />
+    <PackageReference Include="System.Net.Primitives" Version="4.3.1" />
+    <PackageReference Include="System.Runtime.Extensions" Version="4.3.1" />
+    <PackageReference Include="System.Threading" Version="4.3.0" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Zyborg.VMBot\Zyborg.VMBot.csproj" />
+    <ProjectReference Include="..\Zyborg.AWS.Lambda\Zyborg.AWS.Lambda.csproj" />
+    <ProjectReference Include="..\Zyborg.GuacBot.Data\Zyborg.GuacBot.Data.csproj" />
   </ItemGroup>
 
 </Project>
