@@ -6,6 +6,8 @@ This is useful in automation scenarios such as EC2 state changes in response to 
 Group events or any scenario where EC2 state changes may happen independent of any explicit
 infrastructure configuration changes.
 
+***:star: I appreciate your star, it helps me decide to which OSS projects I should allocate my spare time.***
+
 ## Intro
 
 VMBot is a Lambda function that should be deployed to an AWS environment and configured to
